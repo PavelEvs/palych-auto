@@ -1,4 +1,4 @@
-flet
-flet-audio
+flet==0.22.1
+flet-audio==0.22.1
 openai
 edge-tts
