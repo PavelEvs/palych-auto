@@ -29,7 +29,8 @@ jobs:
 
       - name: Install Flet and Python Dependencies
         run: |
-          pip install flet==0.22.1 flet-audio==0.22.1 openai edge-tts
+          # Убрали жесткие версии, pip сам найдет идеальную пару
+          pip install flet flet-audio openai edge-tts
           pip install -r requirements.txt
 
       - name: Build APK
