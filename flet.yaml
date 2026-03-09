@@ -1,0 +1,9 @@
+display_name: Палыч Авто
+package_name: com.pavel.palych
+version: 1.0.0
+
+android:
+  permissions:
+    - RECORD_AUDIO
+    - INTERNET
+    - MODIFY_AUDIO_SETTINGS
