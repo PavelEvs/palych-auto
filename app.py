@@ -17,7 +17,6 @@ def main(page: ft.Page):
     audio_player = fta.Audio(src="", autoplay=True)
     page.overlay.append(audio_player)
 
-    # Лицо и текст
     face_image = ft.Image(src="neutral.gif", width=250, height=250)
     chat_text = ft.Text("Палыч готов!", size=20, text_align="center")
     user_input = ft.TextField(hint_text="Напиши Палычу...", expand=True)
@@ -61,8 +60,8 @@ def main(page: ft.Page):
             face_image.src = "sad.gif"
             page.update()
 
-    # В мобильной версии Flet TextField сам вызывает клавиатуру с микрофоном
-    btn_send = ft.IconButton(icon="send", on_click=lambda _: process_ai(user_input.value))
+    # Идеальная кнопка для машины: большая и с текстом
+    btn_send = ft.ElevatedButton("Отправить", on_click=lambda _: process_ai(user_input.value))
 
     page.add(
         face_image,
