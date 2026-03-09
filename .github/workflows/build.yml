@@ -18,25 +18,28 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install System Dependencies (Для Flutter Doctor)
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev mesa-utils
 
-      - name: Accept Android SDK Licenses (Бюрократия)
+      - name: Accept Android SDK Licenses
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Install Flet and Python Dependencies
         run: |
-          # Убрали жесткие версии, pip сам найдет идеальную пару
+          # Свежие версии без привязки к цифрам
           pip install flet flet-audio openai edge-tts
           pip install -r requirements.txt
 
       - name: Build APK
+        env:
+          # Сообщаем сборщику, что мы робот, и задавать вопросы нельзя
+          CI: true 
         run: |
-          # Собираем с явным указанием главного файла
-          flet build apk --module-name app --verbose
+          # Принудительно отправляем "Да" (y) на любые скрытые вопросы
+          yes | flet build apk --module-name app --verbose
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
