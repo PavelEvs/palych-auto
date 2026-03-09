@@ -16,10 +16,10 @@ jobs:
         run: |
           pip install flet[all] flet-audio openai edge-tts SpeechRecognition
 
-      - name: Build APK
+     - name: Build APK
         run: |
-          # Добавляем флаги, чтобы сборщик не задавал вопросов
-          flet build apk --yes --no-interactive
+          # Команда 'yes' будет автоматически подтверждать все запросы [y/n]
+          yes | flet build apk --verbose
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
