@@ -16,7 +16,7 @@ jobs:
         run: |
           pip install flet[all] flet-audio openai edge-tts SpeechRecognition
 
-     - name: Build APK
+      - name: Build APK
         run: |
           # Команда 'yes' будет автоматически подтверждать все запросы [y/n]
           yes | flet build apk --verbose
