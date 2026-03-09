@@ -3,4 +3,3 @@ flet-audio
 openai
 edge-tts
 SpeechRecognition
-PyAudio
