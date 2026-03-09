@@ -1,28 +1,44 @@
 name: Build Palych APK
-on: [push] # Сборка начнется сразу после сохранения
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install System Dependencies (Для Flutter Doctor)
         run: |
-          pip install flet[all] flet-audio openai edge-tts SpeechRecognition
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev mesa-utils
+
+      - name: Accept Android SDK Licenses (Бюрократия)
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Install Flet and Python Dependencies
+        run: |
+          pip install flet==0.22.1 flet-audio==0.22.1 openai edge-tts
+          pip install -r requirements.txt
 
       - name: Build APK
         run: |
-          # Указываем, что наш главный файл называется app.py
-          yes | flet build apk --module-name app --verbose
-
-      - name: Upload Artifact
+          # Собираем с явным указанием главного файла
+          flet build apk --module-name app --verbose
+          
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: palych-app
-          path: build/apk/*.apk # Путь, где будет лежать готовый файл
+          path: build/apk/*.apk
