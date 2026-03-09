@@ -1,0 +1,28 @@
+name: Build Palych APK
+on: [push] # Сборка начнется сразу после сохранения
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install flet[all] flet-audio openai edge-tts SpeechRecognition
+
+      - name: Build Android APK
+        run: |
+          # Команда сборки. GitHub сам скачает Android SDK и Java
+          flet build apk --project "Палыч Авто" --org "com.pavel.palych"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: palych-app
+          path: build/apk/*.apk # Путь, где будет лежать готовый файл
