@@ -2,4 +2,3 @@ flet
 flet-audio
 openai
 edge-tts
-SpeechRecognition
